@@ -1,0 +1,31 @@
+{
+  "name": "movies-explorer-api",
+  "version": "1.0.0",
+  "description": "diploma project",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node ./app.js",
+    "dev": "nodemon ./app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Pavel-174/movies-explorer-api.git"
+  },
+  "author": "Pavel Alekseev",
+  "license": "ISC",
+  "devDependencies": {
+    "eslint": "^8.33.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-plugin-import": "^2.27.5",
+    "nodemon": "^2.0.20"
+  },
+  "bugs": {
+    "url": "https://github.com/Pavel-174/movies-explorer-api/issues"
+  },
+  "homepage": "https://github.com/Pavel-174/movies-explorer-api#readme",
+  "dependencies": {
+    "mongoose": "^6.9.2",
+    "validator": "^13.9.0"
+  }
+}
