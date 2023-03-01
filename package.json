@@ -25,6 +25,11 @@
   },
   "homepage": "https://github.com/Pavel-174/movies-explorer-api#readme",
   "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "celebrate": "^15.0.1",
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "jsonwebtoken": "^9.0.0",
     "mongoose": "^6.9.2",
     "validator": "^13.9.0"
   }
