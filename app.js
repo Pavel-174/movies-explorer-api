@@ -2,17 +2,16 @@ const express = require('express');
 const mongoose = require('mongoose');
 const { errors } = require('celebrate');
 const bodyParser = require('body-parser');
+const helmet = require('helmet');
+const { limiter } = require('./utils/limiter');
 const cors = require('./middlewares/cors');
 const { requestLogger } = require('./middlewares/logger');
 const router = require('./routes/index');
 const { errorLogger } = require('./middlewares/logger');
 const handleError = require('./middlewares/handleError');
+const { DATA_URL, PORT } = require('./utils/constants');
 
 const app = express();
-
-const { PORT = 3000 } = process.env;
-
-const DATA_URL = 'mongodb://127.0.0.1:27017/mestodb';
 
 mongoose
   .connect(DATA_URL)
@@ -33,6 +32,10 @@ app.use(cors);
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(requestLogger);
+
+app.use(limiter);
+
+app.use(helmet());
 
 app.use(router);
 

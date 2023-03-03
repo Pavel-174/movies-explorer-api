@@ -9,36 +9,28 @@ const User = require('../models/user');
 
 const { NODE_ENV, JWT_SECRET } = process.env;
 
-module.exports.createUser = (req, res, next) => {
+const createUser = (req, res, next) => {
   const { name, email, password } = req.body;
-  User.findOne({ email })
-    .then((user) => {
-      if (user) {
-        throw new ConflictError('Пользователь с данным email уже существует');
-      } return bcrypt.hash(password, 10);
-    })
+
+  bcrypt.hash(password, 10)
     .then((hash) => User.create({
-      name,
-      email,
-      password: hash,
+      name, email, password: hash,
     }))
-    .then((newUser) => {
-      if (!newUser) {
-        return next(new NotFound('Объект не найден'));
-      } return res.send({
-        name: newUser.name,
-        email: newUser.email,
-        _id: newUser._id,
-      });
-    })
+    .then((({ _id }) => User.findById(_id)))
+    .then((user) => res.send(user))
     .catch((err) => {
       if (err.name === 'ValidationError') {
-        next(new ValidationError('Введены некорректные данные'));
-      } return next(err);
-    });
+        throw new ValidationError('Переданы некорректные данные');
+      }
+      if (err.code === 11000) {
+        throw new ConflictError('Пользователь с таким email уже существует');
+      }
+      next(err);
+    })
+    .catch(next);
 };
 
-module.exports.login = (req, res, next) => {
+const login = (req, res, next) => {
   const { email, password } = req.body;
   User.findOne({ email }).select('+password')
     .then((user) => {
@@ -55,7 +47,7 @@ module.exports.login = (req, res, next) => {
     .catch(next);
 };
 
-module.exports.getMyInfo = (req, res, next) => {
+const getMyInfo = (req, res, next) => {
   User.findById(req.user._id)
     .then((user) => {
       if (user == null) {
@@ -68,7 +60,7 @@ module.exports.getMyInfo = (req, res, next) => {
     .catch(next);
 };
 
-module.exports.swapProfile = (req, res, next) => {
+const swapProfile = (req, res, next) => {
   const { name, email } = req.body;
   User.findOne({ email })
     .then((user) => {
@@ -93,4 +85,11 @@ module.exports.swapProfile = (req, res, next) => {
         next(new ValidationError('Переданы некорректные данные'));
       } return next(err);
     });
+};
+
+module.exports = {
+  getMyInfo,
+  swapProfile,
+  createUser,
+  login,
 };
