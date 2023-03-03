@@ -6,8 +6,8 @@ const helmet = require('helmet');
 const { limiter } = require('./utils/limiter');
 const cors = require('./middlewares/cors');
 const { requestLogger } = require('./middlewares/logger');
-const router = require('./routes/index');
 const { errorLogger } = require('./middlewares/logger');
+const router = require('./routes/index');
 const handleError = require('./middlewares/handleError');
 const { DATA_URL, PORT } = require('./utils/constants');
 

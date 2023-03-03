@@ -38,7 +38,7 @@ const validationUpdateUser = celebrate({
   }),
 });
 
-const validationStoreMovie = celebrate({
+const validationCreateMovie = celebrate({
   body: Joi.object().keys({
     country: Joi.string().required(),
     director: Joi.string().required(),
@@ -46,7 +46,7 @@ const validationStoreMovie = celebrate({
     year: Joi.string().required(),
     description: Joi.string().required(),
     image: Joi.string().required().custom(validationUrl),
-    trailer: Joi.string().required().custom(validationUrl),
+    trailerLink: Joi.string().required().custom(validationUrl),
     thumbnail: Joi.string().required().custom(validationUrl),
     movieId: Joi.number().required(),
     nameRU: Joi.string().required(),
@@ -65,6 +65,6 @@ module.exports = {
   validationCreateUser,
   validationGetUser,
   validationUpdateUser,
-  validationStoreMovie,
+  validationCreateMovie,
   validationDeleteMovie,
 };

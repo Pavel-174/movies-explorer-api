@@ -14,7 +14,7 @@ const getMovies = (req, res, next) => {
     .catch(next);
 };
 
-const storeMovie = (req, res, next) => {
+const createMovie = (req, res, next) => {
   const owner = req.user._id;
 
   Movie.create({ owner, ...req.body })
@@ -49,6 +49,6 @@ const deleteMovieById = (req, res, next) => {
 
 module.exports = {
   getMovies,
-  storeMovie,
+  createMovie,
   deleteMovieById,
 };
